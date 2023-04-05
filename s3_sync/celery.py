@@ -11,6 +11,10 @@ app = Celery(
 )
 
 app.conf.worker_concurrency = celery_concurrency
+# app.conf.log_level = celery_log_level
+# app.conf.update(
+#     CELERYD_LOG_LEVEL=celery_log_level
+# )
 
 
 @app.task

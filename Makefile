@@ -5,7 +5,7 @@ USING_POETRY=$(shell grep "tool.poetry" pyproject.toml && echo "yes")
 .PHONY: celery
 celery:
 	@echo "Starting celery ..."
-	@$(ENV_PREFIX)celery -A s3_sync worker
+	@$(ENV_PREFIX)celery -A s3_sync worker -l INFO
 
 .PHONY: flower
 flower:
@@ -21,6 +21,11 @@ celery-status:
 purge:
 	@echo "Purging celery ..."
 	@$(ENV_PREFIX)celery -A s3_sync.celery purge -f
+
+.PHONY: media_attachments
+media_attachments:
+	@echo "Starting media_attachments ..."
+	@$(ENV_PREFIX)python -m s3_sync.jobs.media_attachments
 
 .PHONY: help
 help:             ## Show the help.

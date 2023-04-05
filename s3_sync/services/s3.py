@@ -1,6 +1,7 @@
 import boto3 as aws
 from s3_sync.utils.config import *
 from s3_sync.utils.logger import logger
+from s3_sync.utils.paperclip import generate_id_partition, get_file_extension, replace_file_extension
 
 s3_source = aws.client(
     's3',
@@ -18,28 +19,7 @@ s3_destination = aws.client(
 )
 
 
-def generate_id_partition(id: int):
-    """generate id_partition
-
-    Args:
-        id (int): activity record id
-
-    Returns:
-        string: id_partition 000/001/234
-    """
-    # Convert the ID to a string and add leading zeros if necessary
-    id_str = str(id).zfill(9)
-
-    # Split the ID into 3 groups of 3 digits each
-    groups = [id_str[i:i+3] for i in range(0, len(id_str), 3)]
-
-    # Join the groups with slashes to create the partition path
-    partition_path = '/'.join(groups)
-
-    return partition_path
-
-
-def sync_file(prefix: str, style: str, id: int, file_name: str):
+def sync_file(prefix: str, style: str, id: int, file_name: str, cached: bool = False) -> tuple([bool, Exception]):
     """sync s3 file from source to target
 
     Args:
@@ -49,48 +29,51 @@ def sync_file(prefix: str, style: str, id: int, file_name: str):
         file_name (str): 1.jpg
     """
     object_key = f"{prefix}/{generate_id_partition(id)}/{style}/{file_name}"
+    cached_object_key = f"/cache{object_key}"
 
     data = None
 
     try:
         response = s3_source.get_object(
-            Bucket=s3_source_bucket, Key=object_key
+            Bucket=s3_source_bucket, Key=object_key if not cached else cached_object_key
         )
         data = response['Body'].read()
-        # s3_source.download_file(
-        #     Bucket=s3_source_bucket, Key=object_key, Filename=f"{tmp_dir}/{object_key}"
-        # )
     except Exception as e:
         logger.info(f"not found {object_key}")
-        object_key = f"/cache{object_key}"
+        object_key = cached_object_key if not cached else object_key
         try:
             response = s3_source.get_object(
                 Bucket=s3_source_bucket, Key=object_key
             )
             data = response['Body'].read()
-            # s3_source.download_file(
-            #     Bucket=s3_source_bucket, Key=object_key, Filename=f"{tmp_dir}/{object_key}"
-            # )
             logger.info(f"downloaded {object_key}`")
         except Exception as e:
-            logger.error(f"download failed {object_key}")
-            logger.error(e)
-            return
+            should_retry_as_png = False
+            if get_file_extension(file_name) != "png":
+                logger.info(f"retrying as png {object_key}")
+                should_retry_as_png = True
+                is_retry_as_png_succeed, e = sync_file(
+                    prefix=prefix,
+                    style=style,
+                    id=id,
+                    file_name=replace_file_extension(file_name, "png"),
+                    cached=cached
+                )
+            if not should_retry_as_png or (should_retry_as_png and not is_retry_as_png_succeed):
+                logger.error(f"download failed {object_key}")
+                logger.error(e)
+                return (False, e)
 
     try:
         s3_destination.put_object(
             Bucket=s3_destination_bucket, Key=object_key, Body=data
         )
-        # s3_destination.upload_file(
-        #     Bucket=s3_destination_bucket, Key=object_key, Filename=f"{tmp_dir}/{object_key}"
-        # )
         logger.info(f"uploaded {object_key}")
+        return (True, None)
     except Exception as e:
         logger.error(f"upload failed {object_key}")
         logger.error(e)
-
-    # clean up
-    data = None
+        return (False, e)
 
 
 if __name__ == '__main__':

@@ -56,9 +56,10 @@ if __name__ == '__main__':
     # "SELECT COUNT(*) FROM media_attachments;"
     # "SELECT id, file_file_name, thumbnail_file_name, processing, processing FROM media_attachments ORDER BY id desc LIMIT 10;"
     # query = "SELECT id, file_file_name, thumbnail_file_name, processing, processing FROM media_attachments ORDER BY id desc LIMIT 10;"
-    query = "SELECT* FROM media_attachments WHERE media_attachments.status_id=110133645359663898;"
+    query = "SELECT file_meta FROM media_attachments ORDER BY id LIMIT 100;"
 
     rows = pg_query(query)
 
     for row in rows:
+        print(type(row[0]))
         print(JSONDumps(row))
