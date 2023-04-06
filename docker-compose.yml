@@ -5,8 +5,8 @@ services:
     image: redis:alpine
     # ports:
     #   - 6379:6379
-    volumes:
-      - ./private/redis:/data
+    # volumes:
+    #   - ./private/redis:/data
 
   celery:
     build: .
@@ -23,6 +23,8 @@ services:
     command: make flower
     ports:
       - 5555:5555
+    environment:
+      - CONFIG_FILE_NAME=config.docker.ini
     volumes:
       - ./private:/app/private
     depends_on:

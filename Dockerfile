@@ -1,7 +1,6 @@
 FROM python:3.9-alpine
 
-RUN apk add --no-cache postgresql-libs postgresql-dev gcc musl-dev
-RUN apk add --no-cache libffi-dev make
+RUN apk add --no-cache postgresql-libs postgresql-dev gcc musl-dev libffi-dev make
 
 COPY requirements.txt /app/requirements.txt
 COPY requirements-test.txt /app/requirements-test.txt

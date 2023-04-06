@@ -1,5 +1,6 @@
 from celery import Celery
 from s3_sync.base import NAME
+from s3_sync.tasks.accounts import accounts
 from s3_sync.tasks.media_attachments import media_attachments
 from s3_sync.utils.config import *
 from s3_sync.utils.logger import logger
@@ -20,3 +21,8 @@ app.conf.worker_concurrency = celery_concurrency
 @app.task
 def media_attachments_task(*args):
     return media_attachments(*args)
+
+
+@app.task
+def accounts_task(*args):
+    return accounts(*args)

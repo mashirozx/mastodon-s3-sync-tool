@@ -45,6 +45,8 @@ celery_backend = config['celery']['backend']
 celery_log_level = config['celery']['log_level']
 celery_concurrency = int(config['celery']['concurrency'])
 
+limit = f"LIMIT {str(10000)}"
+
 if __name__ == '__main__':
     config_dict = {
         section: dict(config[section])
