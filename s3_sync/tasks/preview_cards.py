@@ -5,7 +5,9 @@ from s3_sync.utils.config import *
 
 # id	url	title	description	image_file_name	image_content_type	image_file_size	image_updated_at	type	html	author_name	author_url	provider_name	provider_url	width	height	created_at	updated_at	embed_url	image_storage_schema_version	blurhash	language	max_score	max_score_at	trendable	link_type
 
-query = f"SELECT id, image_file_name, image_content_type FROM preview_cards ORDER BY id {limit};"
+
+def query(limit: str):
+    return f"SELECT id, image_file_name, image_content_type FROM preview_cards ORDER BY id {limit};"
 
 
 def preview_cards(preview_card: tuple, index: int, total: int):

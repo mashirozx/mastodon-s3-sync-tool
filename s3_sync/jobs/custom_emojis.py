@@ -1,10 +1,10 @@
 from s3_sync.services.pg import pg_query
 from s3_sync.celery import custom_emojis_task
 from s3_sync.tasks.custom_emojis import query, custom_emojis
-from s3_sync.utils.config import is_dev_mode
+from s3_sync.utils.job_config import *
 import signal
 
-custom_emoji_records = pg_query(query)
+custom_emoji_records = pg_query(query(limit))
 
 total = len(custom_emoji_records)
 

@@ -5,7 +5,9 @@ from s3_sync.utils.config import *
 
 # id	shortcode	domain	image_file_name	image_content_type	image_file_size	image_updated_at	created_at	updated_at	disabled	uri	image_remote_url	visible_in_picker	category_id	image_storage_schema_version
 
-query = f"SELECT id, image_file_name, image_content_type, image_remote_url FROM custom_emojis ORDER BY id {limit};"
+
+def query(limit: str):
+    return f"SELECT id, image_file_name, image_content_type, image_remote_url FROM custom_emojis ORDER BY id {limit};"
 
 
 def custom_emojis(custom_emoji: tuple, index: int, total: int):

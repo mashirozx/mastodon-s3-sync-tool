@@ -1,10 +1,10 @@
 from s3_sync.services.pg import pg_query
 from s3_sync.celery import media_attachments_task
 from s3_sync.tasks.media_attachments import query, media_attachments
-from s3_sync.utils.config import is_dev_mode
+from s3_sync.utils.job_config import *
 import signal
 
-media_attachment_records = pg_query(query)
+media_attachment_records = pg_query(query(limit))
 
 total = len(media_attachment_records)
 

@@ -11,6 +11,6 @@ COPY README.md /app/README.md
 WORKDIR /app
 
 RUN pip install .
-COPY . /app
+# COPY . /app
 
-CMD ["s3_sync"]
+CMD ["python --version"]

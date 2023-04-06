@@ -1,10 +1,10 @@
 from s3_sync.services.pg import pg_query
 from s3_sync.celery import accounts_task
 from s3_sync.tasks.accounts import query, accounts
-from s3_sync.utils.config import is_dev_mode
+from s3_sync.utils.job_config import *
 import signal
 
-account_records = pg_query(query)
+account_records = pg_query(query(limit))
 
 total = len(account_records)
 

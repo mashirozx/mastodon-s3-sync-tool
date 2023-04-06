@@ -3,7 +3,9 @@ from s3_sync.services.s3 import sync_file
 from s3_sync.utils.logger import has_error, log_error, logger
 from s3_sync.utils.config import *
 
-query = f"SELECT id, file_file_name, thumbnail_file_name, remote_url, file_meta FROM media_attachments ORDER BY id {limit};"
+
+def query(limit: str):
+    return f"SELECT id, file_file_name, thumbnail_file_name, remote_url, file_meta FROM media_attachments ORDER BY id {limit};"
 
 
 def media_attachments(media_attachment: tuple, index: int, total: int):
