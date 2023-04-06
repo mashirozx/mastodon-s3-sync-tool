@@ -60,7 +60,8 @@ parser.add_argument('--limit',
 args = parser.parse_args()
 
 is_dev_mode = args.dev
-limit = f"LIMIT {str(args.limit)}" if is_dev_mode else ""
+
+limit = f"LIMIT {str(args.limit)}" if args.limit > 0 else ""
 
 if __name__ == '__main__':
     config_dict = {
