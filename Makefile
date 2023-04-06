@@ -35,7 +35,7 @@ purge:
 .PHONY: jobs
 jobs:
 	@echo "Starting jobs ..."
-	# @$(ENV_PREFIX)python -m s3_sync.jobs.media_attachments
+	@$(ENV_PREFIX)python -m s3_sync.jobs.media_attachments
 	@$(ENV_PREFIX)python -m s3_sync.jobs.accounts
 
 .PHONY: help
