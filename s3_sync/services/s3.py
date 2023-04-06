@@ -50,18 +50,21 @@ def sync_file(prefix: str, style: str, id: int, file_name: str, cached: bool = F
         except Exception as e:
             should_retry_as_png = False
             if get_file_extension(file_name) != "png":
-                logger.info(f"retrying as png {object_key}")
+                new_file_name = replace_file_extension(file_name, "png")
+                logger.info(f"retrying as png {object_key} -> {new_file_name}")
                 should_retry_as_png = True
                 is_retry_as_png_succeed, e = sync_file(
                     prefix=prefix,
                     style=style,
                     id=id,
-                    file_name=replace_file_extension(file_name, "png"),
+                    file_name=new_file_name,
                     cached=cached
                 )
-            if not should_retry_as_png or (should_retry_as_png and not is_retry_as_png_succeed):
-                logger.error(f"download failed {object_key}")
-                logger.error(e)
+            if (should_retry_as_png and is_retry_as_png_succeed):
+                logger.info(f"retry as png succeed {object_key}")
+                return (True, None)
+            elif not should_retry_as_png or (should_retry_as_png and not is_retry_as_png_succeed):
+                logger.error(f"download failed {object_key}", str(e))
                 return (False, e)
 
     try:
@@ -71,8 +74,7 @@ def sync_file(prefix: str, style: str, id: int, file_name: str, cached: bool = F
         logger.info(f"uploaded {object_key}")
         return (True, None)
     except Exception as e:
-        logger.error(f"upload failed {object_key}")
-        logger.error(e)
+        logger.error(f"upload failed {object_key}", str(e))
         return (False, e)
 
 

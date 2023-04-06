@@ -1,2 +1,4 @@
 id_ed25519
-config.ini
+*.ini
+!config.sample.ini
+redis

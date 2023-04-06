@@ -17,14 +17,26 @@ celery-status:
 	@echo "Celery status ..."
 	@$(ENV_PREFIX)celery -A s3_sync status
 
+.PHONY: du
+du:
+	@echo "docker compose up -d --build"
+	@docker compose up -d --build
+
+.PHONY: dj
+dj:
+	@echo "docker compose exec celery sh -c 'make jobs'"
+	@docker compose exec celery sh -c 'make jobs'
+
 .PHONY: purge
 purge:
 	@echo "Purging celery ..."
 	@$(ENV_PREFIX)celery -A s3_sync.celery purge -f
 
-.PHONY: media_attachments
-media_attachments:
-	@echo "Starting media_attachments ..."
+.PHONY: jobs
+jobs:
+	@echo "Starting jobs ..."
+	# @echo $$CONFIG_FILE_NAME
+	# @ls private
 	@$(ENV_PREFIX)python -m s3_sync.jobs.media_attachments
 
 .PHONY: help

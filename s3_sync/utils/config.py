@@ -1,11 +1,14 @@
 import configparser
-from os import path
+from os import path, environ
 from json import dumps as JSONDumps
 
 project_dir = path.dirname(path.abspath(__file__))
 private_dir = path.join(project_dir, '../../private')
 tmp_dir = path.join(project_dir, '../../tmp')
-config_file_path = path.join(private_dir, 'config.ini')
+
+config_file_name = environ.get('CONFIG_FILE_NAME', 'config.ini')
+
+config_file_path = path.join(private_dir, config_file_name)
 
 config = configparser.ConfigParser()
 config.read(config_file_path)
@@ -25,7 +28,9 @@ pg_tunnel_ssh_host = config['pg.tunnel']['ssh_host']
 pg_tunnel_ssh_port = int(config['pg.tunnel']['ssh_port'])
 pg_tunnel_ssh_user = config['pg.tunnel']['ssh_user']
 pg_tunnel_ssh_password = config['pg.tunnel']['ssh_password']
-pg_tunnel_ssh_key = config['pg.tunnel']['ssh_key']
+_pg_tunnel_ssh_key = config['pg.tunnel']['ssh_key']
+pg_tunnel_ssh_key = path.join(
+    private_dir, _pg_tunnel_ssh_key) if _pg_tunnel_ssh_key else None
 pg_tunnel_local_host = config['pg.tunnel']['local_host']
 pg_tunnel_local_port = int(config['pg.tunnel']['local_port'])
 
@@ -46,3 +51,4 @@ if __name__ == '__main__':
         for section in config.sections()
     }
     print(JSONDumps(config_dict, indent=4))
+    print(pg_tunnel_ssh_key)

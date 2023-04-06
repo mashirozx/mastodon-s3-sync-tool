@@ -1,0 +1,9 @@
+s3_sync.egg-info
+.venv
+tmp
+*.pyc
+*.pyo
+__pycache__
+venv
+.dockerignore
+.env
