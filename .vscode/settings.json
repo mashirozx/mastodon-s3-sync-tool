@@ -3,6 +3,7 @@
     "cSpell.words": [
         "boto",
         "psycopg",
+        "signum",
         "sshtunnel"
     ],
 }

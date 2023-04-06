@@ -5,7 +5,7 @@ from s3_sync.utils.config import *
 
 # id	username	domain	private_key	public_key	created_at	updated_at	note	display_name	uri	url	avatar_file_name	avatar_content_type	avatar_file_size	avatar_updated_at	header_file_name	header_content_type	header_file_size	header_updated_at	avatar_remote_url	locked	header_remote_url	last_webfingered_at	inbox_url	outbox_url	shared_inbox_url	followers_url	protocol	memorial	moved_to_account_id	featured_collection_url	fields	actor_type	discoverable	also_known_as	silenced_at	suspended_at	hide_collections	avatar_storage_schema_version	header_storage_schema_version	devices_url	sensitized_at	suspension_origin	trendable	reviewed_at	requested_review_at
 
-query = f"SELECT id, avatar_file_name, avatar_content_type, avatar_remote_url, header_file_name, header_content_type, header_remote_url FROM accounts ORDER BY id {limit};"
+query = f"SELECT id, avatar_file_name, avatar_content_type, avatar_remote_url, header_file_name, header_content_type, header_remote_url FROM accounts WHERE id>0 ORDER BY id {limit};"
 
 
 def accounts(account: tuple, index: int, total: int):

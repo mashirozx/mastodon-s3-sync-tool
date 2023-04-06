@@ -37,6 +37,8 @@ jobs:
 	@echo "Starting jobs ..."
 	@$(ENV_PREFIX)python -m s3_sync.jobs.media_attachments
 	@$(ENV_PREFIX)python -m s3_sync.jobs.accounts
+	@$(ENV_PREFIX)python -m s3_sync.jobs.custom_emojis
+	@$(ENV_PREFIX)python -m s3_sync.jobs.preview_cards
 
 .PHONY: help
 help:             ## Show the help.
