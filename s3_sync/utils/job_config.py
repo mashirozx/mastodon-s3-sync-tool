@@ -7,7 +7,7 @@ parser.add_argument('--dev',
                     )
 parser.add_argument('--limit',
                     type=int,
-                    default=100,
+                    default=0,
                     help='Limit number of rows to process',
                     )
 args = parser.parse_args()
