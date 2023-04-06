@@ -32,7 +32,7 @@ def sync_file(prefix: str, style: str, id: int, file_name: str, cached: bool = F
         file_name (str): 1.jpg
     """
     object_key = f"{prefix}/{generate_id_partition(id)}/{style}/{file_name}"
-    cached_object_key = f"/cache{object_key}"
+    cached_object_key = f"cache/{object_key}"
 
     best_computed_object_key = finally_object_key = object_key if not cached else cached_object_key
 
@@ -107,7 +107,7 @@ def sync_file(prefix: str, style: str, id: int, file_name: str, cached: bool = F
 
 if __name__ == '__main__':
     sync_file(
-        prefix="/media_attachments/files",
+        prefix="media_attachments/files",
         style="original",
         id=104530971904218116,
         file_name="3562dcb3b25b8dd0.jpg",

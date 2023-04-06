@@ -26,7 +26,7 @@ def accounts(account: tuple, index: int, total: int):
         if (avatar_file_name):
             is_remote_avatar = bool(avatar_remote_url)
             success, error = sync_file(
-                prefix="/accounts/avatars",
+                prefix="accounts/avatars",
                 style='original',
                 id=id,
                 file_name=avatar_file_name,
@@ -35,7 +35,7 @@ def accounts(account: tuple, index: int, total: int):
             log_error(success, error, errors)
             if avatar_content_type not in ('image/jpeg', 'image/png'):
                 success, error = sync_file(
-                    prefix="/accounts/avatars",
+                    prefix="accounts/avatars",
                     style='static',
                     id=id,
                     file_name=avatar_file_name,
@@ -45,7 +45,7 @@ def accounts(account: tuple, index: int, total: int):
         if (header_file_name):
             is_remote_header = bool(header_remote_url)
             success, error = sync_file(
-                prefix="/accounts/headers",
+                prefix="accounts/headers",
                 style='original',
                 id=id,
                 file_name=header_file_name,
@@ -54,7 +54,7 @@ def accounts(account: tuple, index: int, total: int):
             log_error(success, error, errors)
             if header_content_type not in ('image/jpeg', 'image/png'):
                 success, error = sync_file(
-                    prefix="/accounts/headers",
+                    prefix="accounts/headers",
                     style='static',
                     id=id,
                     file_name=header_file_name,

@@ -24,7 +24,7 @@ def preview_cards(preview_card: tuple, index: int, total: int):
     try:
         if (image_file_name):
             success, error = sync_file(
-                prefix="/preview_cards/images",
+                prefix="preview_cards/images",
                 style='original',
                 id=id,
                 file_name=image_file_name,

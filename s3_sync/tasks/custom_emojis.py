@@ -25,7 +25,7 @@ def custom_emojis(custom_emoji: tuple, index: int, total: int):
         if (image_file_name):
             is_remote = bool(image_remote_url)
             success, error = sync_file(
-                prefix="/custom_emojis/images",
+                prefix="custom_emojis/images",
                 style='original',
                 id=id,
                 file_name=image_file_name,
@@ -34,7 +34,7 @@ def custom_emojis(custom_emoji: tuple, index: int, total: int):
             log_error(success, error, errors)
             if image_content_type not in ('image/jpeg', 'image/png'):
                 success, error = sync_file(
-                    prefix="/custom_emojis/images",
+                    prefix="custom_emojis/images",
                     style='static',
                     id=id,
                     file_name=image_file_name,

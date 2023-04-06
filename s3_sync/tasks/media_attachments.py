@@ -21,7 +21,7 @@ def media_attachments(media_attachment: tuple, index: int, total: int):
         has_small = ("small" in meta) if meta else False
         if (file_file_name):
             success, error = sync_file(
-                prefix="/media_attachments/files",
+                prefix="media_attachments/files",
                 style='original',
                 id=id,
                 file_name=file_file_name,
@@ -30,7 +30,7 @@ def media_attachments(media_attachment: tuple, index: int, total: int):
             log_error(success, error, errors)
             if (has_small):
                 success, error = sync_file(
-                    prefix="/media_attachments/files",
+                    prefix="media_attachments/files",
                     style='small',
                     id=id,
                     file_name=file_file_name,
@@ -39,7 +39,7 @@ def media_attachments(media_attachment: tuple, index: int, total: int):
                 log_error(success, error, errors)
         if (thumbnail_file_name):
             success, error = sync_file(
-                prefix="/media_attachments/thumbnails",
+                prefix="media_attachments/thumbnails",
                 style="original",
                 id=id,
                 file_name=thumbnail_file_name,
