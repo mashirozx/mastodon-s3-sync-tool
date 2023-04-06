@@ -1,3 +1,6 @@
+# TODO: use this in Python 3.10
+# from mimetypes import guess_type
+from magic import from_buffer
 import boto3 as aws
 from s3_sync.utils.config import *
 from s3_sync.utils.logger import logger
@@ -68,8 +71,11 @@ def sync_file(prefix: str, style: str, id: int, file_name: str, cached: bool = F
                 return (False, e)
 
     try:
+        # mime_type = guess_type(data)
+        mime_type = from_buffer(data, mime=True) if data else 'empty'
         s3_destination.put_object(
-            Bucket=s3_destination_bucket, Key=object_key, Body=data
+            Bucket=s3_destination_bucket, Key=object_key, Body=data,
+            ContentType=mime_type if mime_type != 'empty' else None,
         )
         logger.info(f"uploaded {object_key}")
         return (True, None)
