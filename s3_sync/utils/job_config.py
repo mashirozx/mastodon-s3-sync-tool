@@ -10,8 +10,17 @@ parser.add_argument('--limit',
                     default=0,
                     help='Limit number of rows to process',
                     )
+parser.add_argument('--offset',
+                    type=int,
+                    default=0,
+                    help='Offset number of rows to process',
+                    )
 args = parser.parse_args()
 
 is_dev_mode = args.dev
 
-limit = f"LIMIT {str(args.limit)}" if args.limit > 0 else ""
+offset = f"OFFSET {str(args.offset)}" if args.offset > 0 else ""
+
+_limit = f"LIMIT {str(args.limit)}" if args.limit > 0 else ""
+
+limit = f"{offset} {_limit}"
