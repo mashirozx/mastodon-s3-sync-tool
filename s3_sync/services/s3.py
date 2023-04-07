@@ -43,6 +43,8 @@ def sync_file(prefix: str, style: str, id: int, file_name: str, cached: bool = F
             Bucket=s3_source_bucket, Key=finally_object_key
         )
         data = response['Body'].read()
+        logger.info(f"downloaded {finally_object_key}`")
+        print(f"downloaded {finally_object_key}`")
     except Exception as e:
         logger.info(f"not found {finally_object_key}")
         print(f"not found {finally_object_key}")

@@ -27,12 +27,12 @@ for index, account in enumerate(account_records):
         header_file_name, header_content_type, header_remote_url
     ) = account
 
-    if avatar_file_name == None and header_file_name == None:
-        print(f"[accounts] skipped {id} - {index+1}/{total}")
-        continue
     if killed:
         print('Loop interrupted by user')
         break
+    if avatar_file_name == None and header_file_name == None:
+        print(f"[accounts] skipped {id} - {index+1}/{total}")
+        continue
     if is_dev_mode:
         print(f"[accounts] start {id} - {index+1}/{total}")
         result = accounts(account, index, total)
