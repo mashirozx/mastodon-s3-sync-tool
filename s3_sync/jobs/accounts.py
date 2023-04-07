@@ -21,18 +21,27 @@ def handler(signum, frame):
 signal.signal(signal.SIGINT, handler)
 
 for index, account in enumerate(account_records):
+    (
+        id,
+        avatar_file_name, avatar_content_type, avatar_remote_url,
+        header_file_name, header_content_type, header_remote_url
+    ) = account
+
+    if avatar_file_name == None and header_file_name == None:
+        print(f"[accounts] skipped {id} - {index+1}/{total}")
+        continue
     if killed:
         print('Loop interrupted by user')
         break
     if is_dev_mode:
-        print(f"[accounts] start {account[0]} - {index+1}/{total}")
+        print(f"[accounts] start {id} - {index+1}/{total}")
         result = accounts(account, index, total)
         if (result):
             print(str(result))
         print(
-            f"[accounts] {'skipped' if killed else 'done'} {account[0]} - {index+1}/{total}"
+            f"[accounts] {'skipped' if killed else 'done'} {id} - {index+1}/{total}"
         )
     else:
         result = accounts_task.delay(account, index, total)
         # result.get()
-        print(f"[accounts] added {account[0]} - {index+1}/{total}")
+        print(f"[accounts] added {id} - {index+1}/{total}")

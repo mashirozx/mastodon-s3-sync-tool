@@ -21,18 +21,26 @@ def handler(signum, frame):
 signal.signal(signal.SIGINT, handler)
 
 for index, custom_emoji in enumerate(custom_emoji_records):
+    (
+        id,
+        image_file_name, image_content_type, image_remote_url
+    ) = custom_emoji
+
     if killed:
         print('Loop interrupted by user')
         break
+    if image_file_name == None:
+        print(f"[custom_emojis] skipped {id} - {index+1}/{total}")
+        continue
     if is_dev_mode:
-        print(f"[custom_emojis] start {custom_emoji[0]} - {index+1}/{total}")
+        print(f"[custom_emojis] start {id} - {index+1}/{total}")
         result = custom_emojis(custom_emoji, index, total)
         if (result):
             print(str(result))
         print(
-            f"[custom_emojis] {'skipped' if killed else 'done'} {custom_emoji[0]} - {index+1}/{total}"
+            f"[custom_emojis] {'skipped' if killed else 'done'} {id} - {index+1}/{total}"
         )
     else:
         result = custom_emojis_task.delay(custom_emoji, index, total)
         # result.get()
-        print(f"[custom_emojis] added {custom_emoji[0]} - {index+1}/{total}")
+        print(f"[custom_emojis] added {id} - {index+1}/{total}")

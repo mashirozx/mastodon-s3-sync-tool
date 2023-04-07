@@ -23,20 +23,26 @@ def handler(signum, frame):
 signal.signal(signal.SIGINT, handler)
 
 for index, media_attachment in enumerate(media_attachment_records):
+    id, file_file_name, thumbnail_file_name, remote_url, file_meta = media_attachment
+
     if killed:
         print('Loop interrupted by user')
         break
+    if file_file_name == None and thumbnail_file_name == None:
+        print(
+            f"[media_attachments] skipped {id} - {index+1}/{total}")
+        continue
     if is_dev_mode:
         print(
-            f"[attachments] start {media_attachment[0]} - {index+1}/{total}")
+            f"[attachments] start {id} - {index+1}/{total}")
         result = media_attachments(media_attachment, index, total)
         if (result):
             print(str(result))
         print(
-            f"[attachments] {'skipped' if killed else 'done'} {media_attachment[0]} - {index+1}/{total}")
+            f"[attachments] {'skipped' if killed else 'done'} {id} - {index+1}/{total}")
     else:
         result = media_attachments_task.delay(
             media_attachment, index, total)
         # result.get()
         print(
-            f"[attachments] added {media_attachment[0]} - {index+1}/{total}")
+            f"[attachments] added {id} - {index+1}/{total}")

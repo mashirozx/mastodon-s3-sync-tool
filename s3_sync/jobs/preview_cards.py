@@ -21,18 +21,26 @@ def handler(signum, frame):
 signal.signal(signal.SIGINT, handler)
 
 for index, preview_card in enumerate(preview_card_records):
+    (
+        id,
+        image_file_name, image_content_type
+    ) = preview_card
+
     if killed:
         print('Loop interrupted by user')
         break
+    if image_file_name == None:
+        print(f"[preview_cards] skipped {id} - {index+1}/{total}")
+        continue
     if is_dev_mode:
-        print(f"[preview_cards] start {preview_card[0]} - {index+1}/{total}")
+        print(f"[preview_cards] start {id} - {index+1}/{total}")
         result = preview_cards(preview_card, index, total)
         if (result):
             print(str(result))
         print(
-            f"[preview_cards] {'skipped' if killed else 'done'} {preview_card[0]} - {index+1}/{total}"
+            f"[preview_cards] {'skipped' if killed else 'done'} {id} - {index+1}/{total}"
         )
     else:
         result = preview_cards_task.delay(preview_card, index, total)
         # result.get()
-        print(f"[preview_cards] added {preview_card[0]} - {index+1}/{total}")
+        print(f"[preview_cards] added {id} - {index+1}/{total}")
