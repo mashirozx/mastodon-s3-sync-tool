@@ -1,2 +1,22 @@
-site_name: s3_sync
-theme: readthedocs
+site_name: Mastodon S3 Sync Tool
+repo_name: GitHub
+repo_url: https://github.com/mashirozx/mastodon-s3-sync-tool
+theme:
+  name: material
+  logo: assets/favicon.svg
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      primary: deep purple
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - scheme: slate
+      primary: deep purple
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode

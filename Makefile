@@ -125,6 +125,11 @@ release:          ## Create a new tag for release.
 	@git push -u origin HEAD --tags
 	@echo "Github Actions will detect the new tag and release the new version."
 
+.PHONY: serve
+serve:       ## Serve the documentation.
+	@echo "serving documentation ..."
+	@$(ENV_PREFIX)mkdocs serve
+
 .PHONY: docs
 docs:             ## Build the documentation.
 	@echo "building documentation ..."

@@ -35,3 +35,60 @@ services:
       - ./Makefile:/app/Makefile
     depends_on:
       - redis
+
+  ## Well, you may need this when you have a lot of
+  ## records in data base, adding the jobs also takes
+  ## a long time, using services below can keeping
+  ## the jobs running in the background within Docker.
+
+  # accounts:
+  #   build: .
+  #   command: python -m s3_sync.jobs.accounts
+  #   tty: true
+  #   environment:
+  #     - CONFIG_FILE_NAME=config.docker.ini
+  #   volumes:
+  #     - ./private:/app/private
+  #     - ./s3_sync:/app/s3_sync
+  #     - ./Makefile:/app/Makefile
+  #   depends_on:
+  #     - redis
+
+  # custom_emojis:
+  #   build: .
+  #   command: python -m s3_sync.jobs.custom_emojis
+  #   tty: true
+  #   environment:
+  #     - CONFIG_FILE_NAME=config.docker.ini
+  #   volumes:
+  #     - ./private:/app/private
+  #     - ./s3_sync:/app/s3_sync
+  #     - ./Makefile:/app/Makefile
+  #   depends_on:
+  #     - redis
+
+  # media_attachments:
+  #   build: .
+  #   command: python -m s3_sync.jobs.media_attachments
+  #   tty: true
+  #   environment:
+  #     - CONFIG_FILE_NAME=config.docker.ini
+  #   volumes:
+  #     - ./private:/app/private
+  #     - ./s3_sync:/app/s3_sync
+  #     - ./Makefile:/app/Makefile
+  #   depends_on:
+  #     - redis
+
+  # preview_cards:
+  #   build: .
+  #   command: python -m s3_sync.jobs.preview_cards
+  #   tty: true
+  #   environment:
+  #     - CONFIG_FILE_NAME=config.docker.ini
+  #   volumes:
+  #     - ./private:/app/private
+  #     - ./s3_sync:/app/s3_sync
+  #     - ./Makefile:/app/Makefile
+  #   depends_on:
+  #     - redis
