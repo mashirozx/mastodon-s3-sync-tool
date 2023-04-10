@@ -41,7 +41,7 @@ def custom_emojis(custom_emoji: tuple, index: int, total: int):
                 file_name=image_file_name,
                 cached=is_remote
             )
-            # log_error(success, error, errors)
+            log_error(success, error, errors)
 
         if has_error(errors):
             raise Exception(str(errors))
