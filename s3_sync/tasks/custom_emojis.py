@@ -32,15 +32,16 @@ def custom_emojis(custom_emoji: tuple, index: int, total: int):
                 cached=is_remote
             )
             log_error(success, error, errors)
-            if image_content_type not in ('image/jpeg', 'image/png'):
-                success, error = sync_file(
-                    prefix="custom_emojis/images",
-                    style='static',
-                    id=id,
-                    file_name=image_file_name,
-                    cached=is_remote
-                )
-                log_error(success, error, errors)
+            # seems, mastodon also convert png files
+            # if image_content_type not in ('image/jpeg', 'image/png'):
+            success, error = sync_file(
+                prefix="custom_emojis/images",
+                style='static',
+                id=id,
+                file_name=image_file_name,
+                cached=is_remote
+            )
+            # log_error(success, error, errors)
 
         if has_error(errors):
             raise Exception(str(errors))
